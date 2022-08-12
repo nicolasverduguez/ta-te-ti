@@ -1,110 +1,84 @@
 
-# Funciones verificacion
+# -- Funciones de verificación --
 
-def esValido(opcion, val1, val2):
-    return opcion == val1 or opcion == val2
-
-
-def mssgEsValido(opcion, val1, val2):
-    if not esValido(opcion, val1, val2):
-        print(f'Valor invalido. Intente nuevamente\n')
+def esOpcionValida(num, valor, otroValor):
+    return num == valor or num == otroValor
 
 
-def casillaValida(fila, columna):
+def mssg(num, valor, otroValor):
+    if not esOpcionValida(num, valor, otroValor):
+        print(f'Opción invalido. Intente nuevamente\n')
 
-    '''
-    casillaValida(nroFila, nroColumna) -> bool
-    Verifica si los valores ingresados pertenecen 
-    a los de una casilla valida
-    '''
+
+def existeCasilla(fila, columna):
+
+    # Verifica que los valores ingresados correspondan a una posicion que exista
+    # dentro del tablero
 
     valido = (0 < fila < 4) and (0 < columna < 4)
     return valido
 
 
-def filaCompleta(lst, simbolo):
+def filaCompleta(tablero, simbolo):
 
-    '''
-    filaCompleta(lista, simbolo) -> bool
-    Verifica si alguna fila esta completamente 
-    formada por simbolos de un jugador
-    '''
+    # Verifica si una fila contiene unicamente simbolos de un mismo jugador
 
     filaOk = False
 
-    for fila in lst:
+    for fila in tablero:
        if fila.count(simbolo) == 3:
         filaOk = True
+        break
 
     return filaOk
 
 
-def columnaCompleta(lst, simbolo):
+def columnaCompleta(tablero, simbolo):
 
-    '''
-    columnaCompleta(lista, simbolo) -> bool
-    Verifica si alguna columna esta formada completamente 
-    formada por simbolos de un jugador
-    '''
+    # Verifica si una columna contiene unicamente simbolos de un mismo jugador
 
     columnaOk = False
 
-    for columna in range(3):
-
-        lstAux = []
-
-        for fila in lst:
-            lstAux.append(fila[columna])
-            
-        if lstAux.count(simbolo) == 3:
+    for num in range(3):
+        if tablero[0][num] == simbolo and tablero[1][num] == simbolo and tablero[2][num] == simbolo:
             columnaOk = True
+            break
 
     return columnaOk
 
 
-def diagonal1Completa(lst, simbolo):
+def primerDiagonalCompleta(tablero, simbolo):
 
-    '''
-    diagonal1Completa(lista, simbolo) -> bool
-    Verifica si la primer diagonal esta formada completamente 
-    formada por simbolos de un jugador
-    '''
+    # Verifica si la primer diagonal contiene unicamente simbolos de un mismo jugador
 
     lstAux = []
 
-    for i in range(3):
-        lstAux.append(lst[i][i])
+    for num in range(3):
+        lstAux.append(tablero[num][num])
 
     return lstAux.count(simbolo) == 3
 
 
-def diagonal2Completa(lst, simbolo):
+def segundaDiagonalCompleta(tablero, simbolo):
 
-    '''
-    diagonal2Completa(lista, simbolo) -> bool
-    Verifica si la segunda diagonal esta formada completamente 
-    formada por simbolos de un jugador
-    '''
+    # Verifica si la segunda diagonal contiene unicamente simbolos de un mismo jugador
 
     lstAux = []
 
-    for i in range(3):
-        lstAux.append(lst[0+i][2-i])
+    for num in range(3):
+        lstAux.append(tablero[0+num][2-num])
 
     return lstAux.count(simbolo) == 3
 
 
-def existeGanador(lst, simbolo):
+def alguienGano(tablero, simbolo):
     
-    '''
-    existeGanador(lista, simbolo) -> bool
-    Verifica si existe un ganador relacionado con simbolo
-    EXISTE: imprime al ganador y finaliza el programa
-    NO EXISTE: el programa sigue normalmente
-    '''
+    # Verifica si algun jugador gano el juego
 
     ganador = False
 
-    if filaCompleta(lst, simbolo) or columnaCompleta(lst, simbolo) or diagonal1Completa(lst, simbolo) or diagonal2Completa(lst, simbolo):
+    if filaCompleta(tablero, simbolo) or columnaCompleta(tablero, simbolo) or primerDiagonalCompleta(tablero, simbolo) or segundaDiagonalCompleta(tablero, simbolo):
         ganador = True
+
     return ganador
+    
